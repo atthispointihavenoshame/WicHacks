@@ -23,6 +23,8 @@ public class FlagleModel {
 
     public static String FAILURE = "You fail";
     public static String OVER = "Thank you for playing";
+    public static String END = "end";
+    public static String CONT = "cont";
 
     /**
      * Number of attempt
@@ -54,12 +56,13 @@ public class FlagleModel {
      * User score
      */
     private int score = 000;
+
+    private boolean nextFlag;
     /**
      * Resource directory for flag images
      */
     private final static String RESOURCES_DIR = "Flags/";
 
-    private final static String WOMEN_DIR = "Women/";
 
     public void addObserver(Observer<FlagleModel, String> observer){
         this.observerList.add(observer);
@@ -73,12 +76,13 @@ public class FlagleModel {
         return String.valueOf(this.score);
     }
 
+
     public void setGenderFlags() throws FileNotFoundException{
         flagsGender = new ArrayList<>();
         //demigender
         ArrayList demigender = new ArrayList();
         demigender.add("Demigender");
-        demigender.add("Demigender - a person who has a partial, but not full connection to a specific gender or the idea of gender. ");
+        demigender.add("A person who has a partial, but not full connection to a specific gender or the idea of gender. ");
         demigender.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Demigender.png")));
         demigender.add("Sand Chang");
         demigender.add("A clinical psychologist and educator. Uses a number of terms for themself including demiboy. They are also an " +
@@ -90,20 +94,20 @@ public class FlagleModel {
         //agender
         ArrayList agender = new ArrayList();
         agender.add("Agender");
-        agender.add("Agender - a person who doesn't identify as any gender, sometimes defined as having a “lack of gender”.");
+        agender.add("A person who doesn't identify as any gender, sometimes defined as having a “lack of gender”.");
         agender.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Agender.png")));
         agender.add("Jazmin Bean");
         agender.add("English singer songwriter, Jazmin Bean breaks the molds with their surreal and bold makeup," +
                 "fashion and sound. Bean's music has been described as pop metal, hyperpop, alt-pop, grunge and genre-bending" +
                 "Bean also run 'Cult Candy Cosmetics', a cruelty, vegan makeup brand.");
-        agender.add(new Image(getClass().getResourceAsStream("Women/Jazmin.png")));
+        agender.add(new Image(getClass().getResourceAsStream("Women/Jazmin.jpg")));
         flagsGender.add(agender);
 
 
         //transgender
         ArrayList transgender = new ArrayList();
         transgender.add("Transgender");
-        transgender.add("Transgender - a person whose gender identity doesn’t correspond with the sex registered to them at birth.");
+        transgender.add("A person whose gender identity doesn’t correspond with the sex registered to them at birth.");
         transgender.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Transgender.png")));
         transgender.add("Marsha P.Johnson");
         transgender.add("One of the most prominent figures of the gay rights movement in the 1960s and 70s. Her activism" +
@@ -115,7 +119,7 @@ public class FlagleModel {
         //nonbinary
         ArrayList nonbinary = new ArrayList();
         nonbinary.add("Nonbinary");
-        nonbinary.add("Nonbinary - a gender identity that does not fall into the binary categories of male or female.");
+        nonbinary.add("A gender identity that does not fall into the binary categories of male or female.");
         nonbinary.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Nonbinary.png")));
         nonbinary.add("Caldwell Tidicue, 'Bob the Drag Queen'");
         nonbinary.add("Non-binary comic and actor best known for his alter ego. 'Bob the Drag Queen.' He went on to win " +
@@ -127,7 +131,7 @@ public class FlagleModel {
         //intersex
         ArrayList intersex = new ArrayList();
         intersex.add("Intersex");
-        intersex.add("Intersex - a person who is born with physical, hormonal, and/or genetic features that are neither wholly female nor wholly male or are a combination of female and male.");
+        intersex.add("A person who is born with physical, hormonal, and/or genetic features that are neither wholly female nor wholly male or are a combination of female and male.");
         intersex.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Intersex.png")));
         intersex.add("Lili Elbe");
         intersex.add("Born in Denmark in 1882, Lili became one of the first known recipients of sex reassignment surgery" +
@@ -138,7 +142,7 @@ public class FlagleModel {
         //genderfluid
         ArrayList genderfluid = new ArrayList();
         genderfluid.add("Genderfluid");
-        genderfluid.add("Genderfluid - a nonbinary gender identity or expression that is not fixed and is capable of changing over time, they don’t follow the rules of gender. ");
+        genderfluid.add("A nonbinary gender identity or expression that is not fixed and is capable of changing over time, they don’t follow the rules of gender. ");
         genderfluid.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Genderfluid.png")));
         genderfluid.add("Miley Cyrus");
         genderfluid.add("American singer, songwriter, and actress, famously known for her evolving artistry from a child start to grammy-winner for her " +
@@ -149,7 +153,7 @@ public class FlagleModel {
         //genderqueer
         ArrayList genderqueer = new ArrayList();
         genderqueer.add("Genderqueer");
-        genderqueer.add("Genderqueer - a person whose gender identity does not correspond to exclusively male or female and is outside the norms of hetero-, or homo-sexuality.");
+        genderqueer.add("A person whose gender identity does not correspond to exclusively male or female and is outside the norms of hetero-, or homo-sexuality.");
         genderqueer.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Genderqueer.png")));
         genderqueer.add("Austin Cocktails");
         genderqueer.add("(Dipicted Left -> Right, Kelly Gasink, Jill Burns) While not members of the genderqueer community we would like to bring" +
@@ -161,7 +165,7 @@ public class FlagleModel {
         //bigender
         ArrayList bigender = new ArrayList();
         bigender.add("Bigender");
-        bigender.add("Bigender - a person whose gender identity encompasses two genders. ");
+        bigender.add("A person whose gender identity encompasses two genders. ");
         bigender.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Gender - Bigender.png")));
         bigender.add("Archer Rose");
         bigender.add(" (Dipicted is Marian Leitner-Waldman) While not a member of the bigender community 'Archer Rose' support all forms of identity, and alongside" +
@@ -177,90 +181,57 @@ public class FlagleModel {
         //transgay
         ArrayList transgay = new ArrayList();
         transgay.add("Gay");
-        transgay.add("Gay - men assigned at birth or trans-men who are sexually or romantically attracted exclusively to other men.\n");
+        transgay.add("Men assigned at birth or trans-men who are sexually or romantically attracted exclusively to other men.\n");
         transgay.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Trans_gay.png")));
-        transgay.add(" Tan France");
-        transgay.add("Tan France is popular for his involvement in the Netflix special 'Queer Eye' as his role of improving" +
-                " and making people feel more confident with themselves and the space they take by making them look good with their" +
-                " fashion. ");
-                transgay.add(new Image(getClass().getResourceAsStream("Sexualities/Tan.png")));
         flagsSexuality.add(transgay);
 
         //lesbian
         ArrayList lesbian = new ArrayList();
         lesbian.add("Lesbian");
-        lesbian.add("Lesbian - women who are sexually or romantically attracted exclusively to other women.");
+        lesbian.add("Women who are sexually or romantically attracted exclusively to other women.");
         lesbian.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Lesbian.png")));
-        lesbian.add("Talyor Fields");
-        lesbian.add("Nostalgia Coffee, a company owned by their lesbian owner Taylor Fields. When honored in the 2023 Female Founders list stated" +
-                " 'As a gay-female founder, fighting for equity is deeply personal,'");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Taylor Fields.png")));
         flagsSexuality.add(lesbian);
 
         //bisexual
         ArrayList bisexual = new ArrayList();
         bisexual.add("Bisexual");
-        bisexual.add("Bisexual - someone who is sexually, emotionally,  or romantically attracted to both men or women or more than one sex or gender.");
+        bisexual.add("Someone who is sexually, emotionally,  or romantically attracted to both men or women or more than one sex or gender.");
         bisexual.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Bisexual.png")));
-        lesbian.add("Renee Rap");
-        lesbian.add("This Bisexual icon has played Leighton Murray in 'The Sex Lives of College Girls' where after playing the queer character" +
-                " was able to come to terms with her Bisexuality. Renee has also played Regina in <i>MEAN GIRLS</i> the movie and on Broadway");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Renee rap.png")));
         flagsSexuality.add(bisexual);
 
         //pansexual
         ArrayList pansexual = new ArrayList();
         pansexual.add("Pansexual");
-        pansexual.add("Pansexual - attraction to people  sexually, romantically, or emotionally of any gender identity, gender, or biological sex.");
+        pansexual.add("Attraction to people  sexually, romantically, or emotionally of any gender identity, gender, or biological sex.");
         pansexual.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Pansexual.png")));
-        lesbian.add("Cara Delevingne");
-        lesbian.add("Model, Advoacate, and pansexual actor, Founded EcoResolution, an environmental justic platform with Advaya," +
-                " to help advocate for strong environmental regulation and climate change.");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Cara.png")));
         flagsSexuality.add(pansexual);
 
         //polyamory
         ArrayList polyamory = new ArrayList();
         polyamory.add("Polyamory");
-        polyamory.add("Polyamory - the practice of having multiple intimate relationships whether sexual or just romantic, with the full knowledge and consent of all parties involved.\n");
+        polyamory.add("The practice of having multiple intimate relationships whether sexual or just romantic, with the full knowledge and consent of all parties involved.\n");
         polyamory.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Polyamory.png")));
-        lesbian.add("Shailene Woodley");
-        lesbian.add(" Widely known for their role in Divergent and the Fault in Our Stars, Shailene Woodley has been open about" +
-                " their private experiences of bing an in open relationship and states 'I think we're in a day and age where " +
-                " there should be no rules execpt for the ones designed by 2 people in a partnership -- or 3 people, whatever floats your boat,'.");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Shailene Woodley.png")));
         flagsSexuality.add(polyamory);
 
         //asexual
         ArrayList asexual = new ArrayList();
         asexual.add("Asexual");
-        asexual.add("Asexual - a person who experiences little to no sexual attraction to others, or a low interest in sexual activity (Not the same as celibacy or abstinence, because they are choices).");
+        asexual.add("A person who experiences little to no sexual attraction to others, or a low interest in sexual activity (Not the same as celibacy or abstinence, because they are choices).");
         asexual.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Asexual.png")));
-        lesbian.add("Michaela Coel");
-        lesbian.add(" Michaela Coel is a writer, director, and actress kown for creating Chewing Gum and I May Destroy You, Is private about her personal life" +
-                " but in an interview opened up about identifing with the label aromantic");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Michaela Coel.png")));
         flagsSexuality.add(asexual);
 
         //demisexual
         ArrayList demisexual = new ArrayList();
         demisexual.add("Demisexual");
-        demisexual.add("Demisexual - a person who only experiences sexual attraction after making a strong emotional connection with a specific person.\n");
+        demisexual.add("A person who only experiences sexual attraction after making a strong emotional connection with a specific person.\n");
         demisexual.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Demisexual.png")));
-        lesbian.add("Mary Chieffo");
-        lesbian.add("American Actress who known for portraying the Klingon L'Rell on Star Trek: Discovery stated that she identifies as 'panromantic demisexual' and is vocal about advocating for queer actors");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Mary Chieffo.png")));
         flagsSexuality.add(demisexual);
 
         //polysexual
         ArrayList polysexual = new ArrayList();
         polysexual.add("Polysexual");
-        polysexual.add("Polysexual - attraction to any person of certain genders preferred by the specific person, doesn’t have a concrete definition.\n");
+        polysexual.add("Attraction to any person of certain genders preferred by the specific person, doesn’t have a concrete definition.\n");
         polysexual.add(new Image(getClass().getResourceAsStream(RESOURCES_DIR + "Sexuality - Polysexual.png")));
-        lesbian.add("Asia Kate Dillion");
-        lesbian.add("Most known for their role as the Adjudicator in John Wick: Chapter 3 -Parabellum and is open about using their platform to support the LGBTQIA community" +
-                " especially the non-binary ");
-        lesbian.add(new Image(getClass().getResourceAsStream("Sexualities/Asia Kate Dillion.png")));
         flagsSexuality.add(polysexual);
     }
 
@@ -277,6 +248,8 @@ public class FlagleModel {
         setGenderFlags();
         setSexualityFlags();
         setAllFlags();
+        score = 0;
+
         alertObservers(MAIN_MENU);
     }
 
@@ -334,4 +307,13 @@ public class FlagleModel {
         }
     }
 
+    public boolean isNextFlag() {
+        return nextFlag;
+    }
+
+    public void setNextFlag(boolean nextFlag) {
+        this.nextFlag = nextFlag;
+        if(nextFlag) alertObservers(END);
+        else alertObservers(CONT);
+    }
 }
