@@ -305,7 +305,8 @@ public class FlagleUI extends Application implements Observer<FlagleModel, Strin
         answer.setAlignment(Pos.CENTER);
 
         Label description = new Label((String) identity.get(1));
-        description.setMaxWidth(400);
+        description.setStyle("-fx-font: 20 lora;");
+        description.setMaxWidth(700);
         description.setWrapText(true);
         description.setAlignment(Pos.CENTER);
 
@@ -333,7 +334,7 @@ public class FlagleUI extends Application implements Observer<FlagleModel, Strin
             womanImage.setFitHeight(500);
             womanImage.setPreserveRatio(true);
             womanD = new Label((String) identity.get(4));
-            womanD.setMaxWidth(500);
+            womanD.setMaxWidth(700);
             womanD.setWrapText(true);
             womanD.setStyle("-fx-font: 20 lora;");
             endDisplay.getChildren().addAll(currentFlag, answer, description,cont,womanImage, woman, womanD);
@@ -506,6 +507,7 @@ public class FlagleUI extends Application implements Observer<FlagleModel, Strin
         stage.setScene(scene);
         stage.setWidth(1000);
         stage.setHeight(700);
+        stage.setResizable(false);
         stage.show();
 
     }
